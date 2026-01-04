@@ -1,0 +1,69 @@
+# Portal Level Config File
+
+# For more information about this file refer to the Tethys Docs (http://docs.tethysplatform.org/en/stable/tethys_portal/configuration.html)
+version: 2.0
+name: None
+
+############################################################################
+# APPS
+# The "tethys install" command checks this section for app settings.
+#############################################################################
+apps: {}
+
+
+############################################################################
+# SETTINGS
+# Settings from this section are read everytime the Portal starts up.
+#############################################################################
+settings:
+  ALLOWED_HOSTS:
+  - 54.156.103.67
+  - localhost
+  - 127.0.0.1
+  ANALYTICS_CONFIG: {}
+  AUTHENTICATION_BACKENDS: []
+  CAPTCHA_CONFIG:
+    RECAPTCHA_PRIVATE_KEY: ''
+    RECAPTCHA_PUBLIC_KEY: ''
+  CHANNEL_LAYERS:
+    default:
+      BACKEND: channels.layers.InMemoryChannelLayer
+      CONFIG: {}
+  CSRF_TRUSTED_ORIGINS:
+  - http://54.156.103.67
+  - http://localhost
+  - http://127.0.0.1
+  DATABASES:
+    default:
+      ENGINE: django.db.backends.postgresql
+      HOST: tethys_db
+      NAME: tethys_platform
+      PASSWORD: pass
+      PORT: 5432
+      USER: tethys_default
+  DEBUG: false
+  INSTALLED_APPS: []
+  OAUTH_CONFIG: {}
+  RESOURCE_QUOTA_HANDLERS: []
+  SECRET_KEY: 2fTeJCyx6MDXVq30vFbBmi8uPSmZTAdanaWd4Wd8hrK2kHq9mk
+  SESSION_CONFIG:
+    SECURITY_EXPIRE_AFTER: 1800
+    SECURITY_WARN_AFTER: 1500
+  STATIC_ROOT: /usr/lib/tethys/Tethys_react_app/tethysapp/tethysdash/public
+  TETHYS_PORTAL_CONFIG:
+    BYPASS_TETHYS_HOME_PAGE: true
+    MEDIA_ROOT: /var/lib/tethys_persist/media
+    MEDIA_URL: /media/
+    STATIC_ROOT: /var/lib/tethys_persist/static
+    TETHYS_WORKSPACES_ROOT: /var/lib/tethys_persist/workspaces
+
+
+############################################################################
+# SITE SETTINGS
+# This section is applied when running the "tethys site -f" command.
+#############################################################################
+site_settings:
+  CUSTOM_STYLES: {}
+  CUSTOM_TEMPLATES: {}
+  GENERAL_SETTINGS: {}
+  HOME_PAGE: {}
