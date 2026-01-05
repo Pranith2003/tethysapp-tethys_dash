@@ -9,21 +9,21 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
     partition_access = True
 
     visualization_label = 'GeoGloWS Storage Chart'
-    visualization_type = 'ploty'
+    visualization_type = 'plotly'
     visualization_group = 'GeoGloWS'
     visualization_args = {
-        'lat': {'type': 'float', 'description': 'Latitude'},
-        'lon': {'type': 'float', 'description': 'Longitude'}
+        'latitude': {'type': 'float', 'description': 'Latitude'},
+        'longitude': {'type': 'float', 'description': 'Longitude'}
     }
     visualization_tags = ['chart', 'plot', 'line', 'geoglows']
     visualization_description = 'Display storage values from GeoGloWS API'
 
-    def __init__(self, metadata=None, latitude=None, longitude=None, region=None, storage_type=None):
+    def __init__(self, metadata=None, latitude=None, longitude=None, lat=None, lon=None, region=None, storage_type=None):
         super().__init__(metadata=metadata)
         self.region = region or 'katherine_nt'
         self.storage_type = storage_type or 'grace'
-        self.latitude = float(latitude) if latitude is not None else -14.2
-        self.longitude = float(longitude) if longitude is not None else 132.2
+        self.latitude = float(latitude if latitude is not None else lat) if (latitude is not None or lat is not None) else -14.2
+        self.longitude = float(longitude if longitude is not None else lon) if (longitude is not None or lon is not None) else 132.2
         self._data = None
 
     def update_coordinates(self, latitude, longitude):
@@ -77,7 +77,7 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
         print(f"Fetching data for lat: {self.latitude}, lon: {self.longitude}, storage type: {self.storage_type}")
         url = (
             f'http://ggst-api.geoglows.org/api/getPointValues/'
-            f'?latitude={self.latitude}&longitude={self.longitude}&storage_type={self.storage_type}'
+            f'?latitude={self.latitude}&longitude={self.longitude}&storage_type=grace'
         )
         response = requests.get(url)
         if response.status_code == 200:

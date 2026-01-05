@@ -27,6 +27,7 @@ import {
 import Select from "react-select";
 import appAPI from "services/api/app";
 import "components/modals/wideModal.css";
+import TimeSeriesPane from "components/modals/MapLayer/TimeSeriesPane";
 
 const StyledModalHeader = styled(Modal.Header)`
   height: 7%;
@@ -86,6 +87,11 @@ const MapLayerModal = ({
   const containerRef = useRef(null);
   const { csrf, mapLayerTemplates } = useContext(AppContext);
   const { uuid } = useContext(LayoutContext);
+  const [timeSeriesEnabled, setTimeSeriesEnabled] = useState(false);
+  const [autoFetchTime, setAutoFetchTime] = useState(false);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [intervalTime, setIntervalTime] = useState("");
 
   async function saveLayer() {
     setErrorMessage(null);
@@ -347,6 +353,17 @@ const MapLayerModal = ({
                 sourceProps={sourceProps}
                 layerProps={layerProps}
                 tabKey={tabKey}
+              />
+            </Tab>
+            <Tab
+              eventKey="time-series"
+              title="Time Series"
+              aria-label="layer-time-series-tab"
+              className="layer-time-series-tab"
+            >
+              <TimeSeriesPane
+                sourceProps={sourceProps}
+                setSourceProps={setSourceProps}
               />
             </Tab>
           </Tabs>

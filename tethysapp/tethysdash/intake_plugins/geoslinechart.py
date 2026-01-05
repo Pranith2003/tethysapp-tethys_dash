@@ -8,7 +8,7 @@ class GeoSLineChart(intake.source.base.DataSource):
     partition_access = True
 
     visualization_label = 'GeoS Line Chart'
-    visualization_type = 'ploty'
+    visualization_type = 'plotly'
     visualization_group = 'GeoGloWS'
     visualization_args = {
         'region': {
@@ -69,7 +69,7 @@ class GeoSLineChart(intake.source.base.DataSource):
                 }
             ],
             'layout': {
-                'title': f'{self.storage_type.upper()} Values for {self.region}',
+                'title': f'{self.storage_type.upper()} Values for {self.region.upper()}',
                 'xaxis': {'title': 'Timestamp', 'type': 'date'},
                 'yaxis': {'title': f'{self.storage_type.upper()} Value'},
             },
