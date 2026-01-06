@@ -5,7 +5,7 @@ class PlotlyExample(base.DataSource):
     version = "0.0.1"
     name = "plotly_example"
     visualization_args = {}
-    visualization_group = "GeoGloWS"
+    visualization_group = "Default Group"
     visualization_label = "Plotly Example"
     visualization_type = "plotly"
     visualization_tags = [

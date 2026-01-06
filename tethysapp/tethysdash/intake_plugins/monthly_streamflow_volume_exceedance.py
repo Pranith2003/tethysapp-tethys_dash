@@ -19,7 +19,7 @@ class StreamflowVolumeExceedance(base.DataSource):
     visualization_args = {
         "gauge_location": CNRFCGauges,
     }
-    visualization_group = "GeoGloWS"
+    visualization_group = "Default Group"
     visualization_label = "Monthly Streamflow Volume Exceedance"
     visualization_type = "image"
 
