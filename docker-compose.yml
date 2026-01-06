@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  web:
+    image: tethys-portal-docker:latest
+    build: .
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - ./deployment/env/web.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tethys_network
+
+  postgres:
+    image: postgres:17
+    container_name: tethys_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tethysdash_primary_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tethys_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  tethys_network:
+
+volumes:
+  postgres_data:

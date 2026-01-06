@@ -384,7 +384,9 @@ const BaseVisualization = ({
 
     if (
       (refresh ||
-        (source && argsString === "{}") ||
+        (source &&
+          argsString === "{}" &&
+          gridItemArgsWithVariableInputs.current === 0) ||
         !compareFilteredArgs(
           gridItemArgsWithVariableInputs.current,
           updatedGridItemArgs,

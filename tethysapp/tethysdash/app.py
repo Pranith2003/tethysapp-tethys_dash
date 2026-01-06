@@ -28,7 +28,7 @@ class App(TethysAppBase):
             PersistentStoreDatabaseSetting(
                 name="primary_db",
                 description="primary database",
-                initializer="tethysdash.model.init_primary_db",
+                initializer="tethysapp.tethysdash.model.init_primary_db",
                 required=True,
             ),
         )

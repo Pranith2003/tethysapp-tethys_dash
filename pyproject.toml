@@ -21,19 +21,21 @@ dependencies = [
     "intake==2.0.7",
     "djangorestframework",
     "alembic==1.14.0",
-    "xmltodict==0.14.2"
+    "xmltodict==0.14.2",
+    "intake",
 ]
+
 classifiers = [
-     "Environment :: Web Environment",
-     "Framework :: Django",
-     "Intended Audience :: Developers",
-     "License :: OSI Approved :: MIT",
-     "Operating System :: OS Independent",
-     "Programming Language :: Python",
-     "Programming Language :: Python :: 3",
-     "Programming Language :: Python :: 3.10",
-     "Topic :: Internet :: WWW/HTTP",
-     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
 
 [tool.setuptools]
@@ -63,3 +65,14 @@ include = ["tethysapp*"]
 # Optional: for compatibility with pytest if you run tests with `pytest`
 [tool.pytest.ini_options]
 django_find_project = false
+
+[project.entry-points."intake.drivers"]
+list_regions = "tethysapp.tethysdash.intake_plugins.list_regions:ListRegionsDataSource"
+fetch_dates = "tethysapp.tethysdash.intake_plugins.fetch_dates:FetchDatesDataSource"
+storage_options = "tethysapp.tethysdash.intake_plugins.storage_options:StorageOptionsDataSource"
+geo_glo_ws = "tethysapp.tethysdash.intake_plugins.geo_glo_ws:GeoGloWSDataSource"
+geoslinechart = "tethysapp.tethysdash.intake_plugins.geoslinechart:GeoSLineChart"
+plotly_example = "tethysapp.tethysdash.intake_plugins.plotlychart:PlotlyExample"
+monthly_streamflow_volume_exceedance = "tethysapp.tethysdash.intake_plugins.monthly_streamflow_volume_exceedance:StreamflowVolumeExceedance"
+cw3e_ar_landfall = "tethysapp.tethysdash.intake_plugins.ar_landfall:ARLandfall"
+cw3e_west_coast_ivt_magnitude_plumes = "tethysapp.tethysdash.intake_plugins.west_coast_ivt_magnitude_plumes:WestCoastIVTMagnitudePlumes"

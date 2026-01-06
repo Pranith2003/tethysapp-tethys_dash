@@ -27,6 +27,7 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import Overlay from "ol/Overlay";
 import { FaTimes } from "react-icons/fa";
+import { toLonLat } from "ol/proj";
 
 const FixedTable = styled(Table)`
   table-layout: fixed;
@@ -181,6 +182,10 @@ const MapVisualization = ({
   const popupOverlayRef = useRef(null);
   const popupContainerRef = useRef(document.createElement("div"));
   const popupRootRef = useRef(null);
+  const [latlon, setlatlon] = useState({
+    lat: 0,
+    lon: 0,
+  });
 
   const drawing = useRef(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -303,7 +308,7 @@ const MapVisualization = ({
 
     const coordinate = evt.coordinate;
     const pixel = evt.pixel;
-
+    const [lon, lat] = toLonLat(coordinate);
     if (spinnerOverlayRef.current) {
       spinnerOverlayRef.current.setPosition(coordinate);
     }
@@ -455,7 +460,11 @@ const MapVisualization = ({
     let PopupContent;
     let popupCoordinate;
     if (nonEmptyLayers.length === 0) {
-      PopupContent = <CenteredP>No Attributes Found</CenteredP>;
+      PopupContent = (
+        <CenteredP>
+          Lat: {lat.toFixed(2)}, Lon: {lon.toFixed(2)}
+        </CenteredP>
+      );
       popupCoordinate = coordinate;
     } else if (nonEmptyLayerAttributes.length === 0) {
       PopupContent = null;
