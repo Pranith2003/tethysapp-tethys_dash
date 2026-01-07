@@ -1,6 +1,7 @@
 import intake
 import requests
 from intake.source import base
+from .utils.fetchrange import fetch_range
 
 
 class FetchMinValueDataSource(base.DataSource):
@@ -8,7 +9,7 @@ class FetchMinValueDataSource(base.DataSource):
     version = '0.0.1'
     container = 'python'
 
-    visualization_label = 'Min'
+    visualization_label = 'Minimum'
     visualization_type = 'variable_input' 
     visualization_group = 'Custom Intake Plugins'
 
@@ -35,22 +36,16 @@ class FetchMinValueDataSource(base.DataSource):
 
         # When the region_name is missing, return an object with a text key
         if not self.region_name:
-            return {"text": None}
+            return {
+                "variable_name": "Min",
+                "initial_value": None,
+                "variable_options_source": []
+            }
 
-        base_url = "http://ggst-api.geoglows.org"
-        url = f"{base_url}/api/fetchRange/{self.region_name}"
-
-        if self.storage_type:
-            url = f"{url}/{self.storage_type}"
-
-        response = requests.get(url, timeout=10)
-
-        if response.status_code != 200:
-            return {"text": None}
-
-        min_value = response.json().get("min")
+        min_value = fetch_range(self.region_name, self.storage_type)
+        print(min_value)
         return {
             "variable_name": "Min",
-            "initial_value": min_value,
+            "initial_value": min_value["min"],
             "variable_options_source": "number"
         }
