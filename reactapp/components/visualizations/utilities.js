@@ -98,7 +98,13 @@ export async function getVisualization({
     setVizData({ text: itemData.args.text });
 
     return;
-  } else if (itemData.source === "Custom Image") {
+  } 
+  else if (itemData.source === "number") {
+    setVizType("number");
+    setVizData({ text: itemData.args.text });
+
+    return;
+  }else if (itemData.source === "Custom Image") {
     setVizType("image");
     setVizData({
       source: itemData.args.image_source,
@@ -177,6 +183,12 @@ export async function getVisualization({
       });
     } else if (apiResponse.viz_type === "text") {
       setVizType("text");
+      setVizData({
+        text: responseData.text,
+      });
+    }
+    else if (apiResponse.viz_type === "number") {
+      setVizType("number");
       setVizData({
         text: responseData.text,
       });
