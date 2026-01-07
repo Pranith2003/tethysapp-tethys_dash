@@ -3,13 +3,13 @@ import requests
 from intake.source import base
 
 
-class FetchMinValueDataSource(base.DataSource):
-    name = 'fetch_min_value'
+class FetchMaxValueDataSource(base.DataSource):
+    name = 'fetch_max_value'
     version = '0.0.1'
     container = 'python'
 
-    visualization_label = 'Min'
-    visualization_type = 'variable_input' 
+    visualization_label = 'Max Value'
+    visualization_type = 'variable_input'
     visualization_group = 'Custom Intake Plugins'
 
     visualization_args = {
@@ -30,12 +30,14 @@ class FetchMinValueDataSource(base.DataSource):
 
     def read(self):
         """
-        Returns a dict with a 'text' key for the JS 'number' viz
+        Returns configuration for a UI variable input
         """
-
-        # When the region_name is missing, return an object with a text key
         if not self.region_name:
-            return {"text": None}
+            return {
+                "variable_name": "Max",
+                "initial_value": None,
+                "variable_options_source": []
+            }
 
         base_url = "http://ggst-api.geoglows.org"
         url = f"{base_url}/api/fetchRange/{self.region_name}"
@@ -46,11 +48,13 @@ class FetchMinValueDataSource(base.DataSource):
         response = requests.get(url, timeout=10)
 
         if response.status_code != 200:
-            return {"text": None}
+            max_value = None
+        else:
+            max_value = response.json().get("max")
 
-        min_value = response.json().get("min")
         return {
-            "variable_name": "Min",
-            "initial_value": min_value,
+            "variable_name": "Max",
+            "initial_value": max_value,
             "variable_options_source": "number"
         }
+

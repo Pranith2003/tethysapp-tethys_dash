@@ -19,7 +19,7 @@ const Text = ({ textValue, visualizationRef }) => {
     if (!isValidNumber(textValue)) return null;
     return Number(textValue);
   }, [textValue]);
-
+console.log("Number Value: ", numberValue, textValue);
   return (
     <StyledDiv ref={visualizationRef}>
       {numberValue !== null ? numberValue : "Invalid number"}

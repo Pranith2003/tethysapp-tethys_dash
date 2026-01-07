@@ -26,7 +26,7 @@ import { addVerticalLine } from "components/visualizations/BasePlot";
 import { WebsocketContext } from "components/contexts/WebSocketContext";
 import { v4 as uuidv4 } from "uuid";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import Number from "components/visualizations/Number";
+import Number from "./Number";
 
 const StyledSpinner = styled(Spinner)`
   margin: auto;
