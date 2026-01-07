@@ -26,6 +26,7 @@ import { addVerticalLine } from "components/visualizations/BasePlot";
 import { WebsocketContext } from "components/contexts/WebSocketContext";
 import { v4 as uuidv4 } from "uuid";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import Number from "./Number";
 
 const StyledSpinner = styled(Spinner)`
   margin: auto;
@@ -105,6 +106,8 @@ export const Visualization = memo(
         );
       case "text":
         return <Text textValue={vizData.text} />;
+      case "number":
+        return <Number textValue={vizData.text} />;
       case "variableInput":
         return (
           <VariableInput
