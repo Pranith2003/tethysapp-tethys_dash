@@ -98,6 +98,11 @@ export async function getVisualization({
     setVizData({ text: itemData.args.text });
 
     return;
+  } else if (itemData.source === "number") {
+    setVizType("number");
+    setVizData({ text: itemData.args.text });
+
+    return;
   } else if (itemData.source === "Custom Image") {
     setVizType("image");
     setVizData({
