@@ -1,6 +1,7 @@
 import intake
 import requests
 from intake.source import base
+from .utils.fetchrange import fetch_range
 
 
 class FetchMaxValueDataSource(base.DataSource):
@@ -8,7 +9,7 @@ class FetchMaxValueDataSource(base.DataSource):
     version = '0.0.1'
     container = 'python'
 
-    visualization_label = 'Max Value'
+    visualization_label = 'Maximum'
     visualization_type = 'variable_input'
     visualization_group = 'Custom Intake Plugins'
 
@@ -39,22 +40,11 @@ class FetchMaxValueDataSource(base.DataSource):
                 "variable_options_source": []
             }
 
-        base_url = "http://ggst-api.geoglows.org"
-        url = f"{base_url}/api/fetchRange/{self.region_name}"
-
-        if self.storage_type:
-            url = f"{url}/{self.storage_type}"
-
-        response = requests.get(url, timeout=10)
-
-        if response.status_code != 200:
-            max_value = None
-        else:
-            max_value = response.json().get("max")
-
+        max_value = fetch_range(self.region_name, self.storage_type)
+        print(max_value)
         return {
             "variable_name": "Max",
-            "initial_value": max_value,
+            "initial_value": max_value["max"],
             "variable_options_source": "number"
         }
 
