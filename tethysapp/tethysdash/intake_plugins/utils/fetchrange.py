@@ -10,10 +10,10 @@ def fetch_range(region_name, storage_type=None):
         return _RANGE_CACHE[key]
 
     base_url = "http://ggst-api.geoglows.org"
-    url = f"{base_url}/api/fetchRange/{region_name}"
+    url = f"{base_url}/api/fetch_range?storage_type={storage_type}"
 
     if storage_type:
-        url = f"{url}/{storage_type}"
+        url = f"{url}&region_name={region_name}"
 
     r = requests.get(url)
     r.raise_for_status()

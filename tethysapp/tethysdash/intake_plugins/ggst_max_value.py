@@ -43,8 +43,8 @@ class FetchMaxValueDataSource(base.DataSource):
         max_value = fetch_range(self.region_name, self.storage_type)
         print(max_value)
         return {
-            "variable_name": "Max",
+            "variable_name": "Maximum",
             "initial_value": max_value["max"],
-            "variable_options_source": "number"
+            "variable_options_source": "float"
         }
 

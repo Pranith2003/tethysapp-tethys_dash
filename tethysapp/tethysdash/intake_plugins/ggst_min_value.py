@@ -45,7 +45,7 @@ class FetchMinValueDataSource(base.DataSource):
         min_value = fetch_range(self.region_name, self.storage_type)
         print(min_value)
         return {
-            "variable_name": "Min",
+            "variable_name": "Minimum",
             "initial_value": min_value["min"],
-            "variable_options_source": "number"
+            "variable_options_source": "float"
         }

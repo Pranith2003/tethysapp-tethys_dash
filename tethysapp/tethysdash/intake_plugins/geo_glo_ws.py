@@ -9,11 +9,12 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
     partition_access = True
 
     visualization_label = 'GeoGloWS Storage Chart'
-    visualization_type = 'plotly'
+    visualization_type = 'geo_glo_ws'
     visualization_group = 'GeoGloWS'
     visualization_args = {
         'latitude': {'type': 'float', 'description': 'Latitude'},
-        'longitude': {'type': 'float', 'description': 'Longitude'}
+        'longitude': {'type': 'float', 'description': 'Longitude'},
+        'storage_type': {'type': 'string', 'description': 'Storage Type'}
     }
     visualization_tags = ['chart', 'plot', 'line', 'geoglows']
     visualization_description = 'Display storage values from GeoGloWS API'
@@ -77,7 +78,7 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
         print(f"Fetching data for lat: {self.latitude}, lon: {self.longitude}, storage type: {self.storage_type}")
         url = (
             f'http://ggst-api.geoglows.org/api/getPointValues/'
-            f'?latitude={self.latitude}&longitude={self.longitude}&storage_type=grace'
+            f'?latitude={self.latitude}&longitude={self.longitude}&storage_type={self.storage_type}'
         )
         response = requests.get(url)
         if response.status_code == 200:

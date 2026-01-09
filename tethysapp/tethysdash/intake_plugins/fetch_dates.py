@@ -13,10 +13,10 @@ class FetchDatesDataSource(base.DataSource):
     # Inputs expected from other plugins / dashboard state
     visualization_args = {
         'region_name': {
-            'type': 'string', 'description': 'Name of the region'
+            'type': 'string', 'description': 'Name of the region', 'required': False
         },
         'storage_type': {
-            'type': 'string', 'description': 'Name of the storage type'
+            'type': 'string', 'description': 'Name of the storage type', 'required': True
         },
     }
 
@@ -34,7 +34,7 @@ class FetchDatesDataSource(base.DataSource):
             }
 
         base_url = "http://ggst-api.geoglows.org"
-        url = f"{base_url}/api/fetchDates/{self.region_name}/{self.storage_type}"
+        url = f"{base_url}/api/fetch_dates?storage_type={self.storage_type}&region_name={self.region_name}"
 
         response = requests.get(url)
         if response.status_code != 200:

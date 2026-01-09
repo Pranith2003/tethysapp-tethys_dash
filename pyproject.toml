@@ -80,3 +80,5 @@ cw3e_ar_scale_ensemble_diagnostics = "tethysapp.tethysdash.intake_plugins.ar_sca
 cw3e_qpf = "tethysapp.tethysdash.intake_plugins.qpf:QPF"
 ggst_min_value="tethysapp.tethysdash.intake_plugins.ggst_min_value:FetchMinValueDataSource"
 ggst_max_value="tethysapp.tethysdash.intake_plugins.ggst_max_value:FetchMaxValueDataSource"
+get_legend="tethysapp.tethysdash.intake_plugins.get_legend:GetLegendGraphic"
+get_styles="tethysapp.tethysdash.intake_plugins.get_styles:FetchStyles"
