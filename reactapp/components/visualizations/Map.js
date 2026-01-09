@@ -27,6 +27,8 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import Overlay from "ol/Overlay";
 import { FaTimes } from "react-icons/fa";
+import { toLonLat } from "ol/proj";
+import { useMapCoordinates } from "components/contexts/MapCoordinates";
 
 const FixedTable = styled(Table)`
   table-layout: fixed;
@@ -168,6 +170,9 @@ const MapVisualization = ({
   const { setVariableInputValues } = useContext(VariableInputsContext);
   const { inDataViewerMode } = useContext(DataViewerModeContext);
   const { uuid } = useContext(LayoutContext);
+  const mapCoordinates = useMapCoordinates();
+  const latlng = mapCoordinates?.latlng;
+  const setlatlng = mapCoordinates?.setlatlng || (() => {});
 
   const spinnerOverlayRef = useRef(null);
   // Create a spinner element for the overlay
@@ -303,11 +308,11 @@ const MapVisualization = ({
 
     const coordinate = evt.coordinate;
     const pixel = evt.pixel;
-
+    const [lon, lat] = toLonLat(coordinate);
     if (spinnerOverlayRef.current) {
       spinnerOverlayRef.current.setPosition(coordinate);
     }
-
+    setlatlng({ lat, lon });
     const newMarkerLayer = createMarkerLayer(coordinate);
     if (markerLayer.current) {
       map.removeLayer(markerLayer.current);
@@ -455,7 +460,11 @@ const MapVisualization = ({
     let PopupContent;
     let popupCoordinate;
     if (nonEmptyLayers.length === 0) {
-      PopupContent = <CenteredP>No Attributes Found</CenteredP>;
+      PopupContent = (
+        <CenteredP>
+          Lat: {lat.toFixed(2)}, Lon: {lon.toFixed(2)}
+        </CenteredP>
+      );
       popupCoordinate = coordinate;
     } else if (nonEmptyLayerAttributes.length === 0) {
       PopupContent = null;

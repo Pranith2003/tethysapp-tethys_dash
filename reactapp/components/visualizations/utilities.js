@@ -98,6 +98,11 @@ export async function getVisualization({
     setVizData({ text: itemData.args.text });
 
     return;
+  } else if (itemData.source === "number") {
+    setVizType("number");
+    setVizData({ text: itemData.args.text });
+
+    return;
   } else if (itemData.source === "Custom Image") {
     setVizType("image");
     setVizData({
@@ -126,12 +131,21 @@ export async function getVisualization({
       );
     }
 
+    console.log("responseData1", apiResponse.viz_type);
+    console.log("responseData2", responseData);
     if (typeof apiResponse.data === "string") {
       responseData = responseData.value;
     }
 
     if (apiResponse.viz_type === "plotly") {
       setVizType("plotly");
+      setVizData({
+        data: responseData.data,
+        layout: responseData.layout,
+        config: responseData.config,
+      });
+    } else if (apiResponse.viz_type === "geo_glo_ws") {
+      setVizType("geo_glo_ws");
       setVizData({
         data: responseData.data,
         layout: responseData.layout,
@@ -177,6 +191,11 @@ export async function getVisualization({
       });
     } else if (apiResponse.viz_type === "text") {
       setVizType("text");
+      setVizData({
+        text: responseData.text,
+      });
+    } else if (apiResponse.viz_type === "number") {
+      setVizType("number");
       setVizData({
         text: responseData.text,
       });

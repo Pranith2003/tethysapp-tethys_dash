@@ -112,6 +112,9 @@ const VariableInput = ({
         // If the variable_options_source is a number, it parses the int value from initial_value
         initialVariableValue = parseInt(initial_value);
         variableValue = initialVariableValue;
+      } else if (variable_options_source === "float") {
+        // float (positive, negative, or zero)
+        initialVariableValue = parseFloat(initial_value);
       } else if (
         variable_options_source === "checkbox" &&
         initial_value === null

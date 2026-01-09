@@ -3,6 +3,7 @@ import Layout from "components/layout/Layout";
 import Loader from "components/loader/AppLoader";
 import AppTour from "components/appTour/AppTour";
 import { ModalPriorityProvider } from "components/contexts/ModalPriorityContext";
+import MapCoordinatesProvider from "components/contexts/MapCoordinates";
 
 import "App.scss";
 
@@ -11,10 +12,12 @@ function App() {
     <>
       <ErrorBoundary>
         <ModalPriorityProvider>
-          <Loader>
-            <AppTour />
-            <Layout />
-          </Loader>
+          <MapCoordinatesProvider>
+            <Loader>
+              <AppTour />
+              <Layout />
+            </Loader>
+          </MapCoordinatesProvider>
         </ModalPriorityProvider>
       </ErrorBoundary>
     </>

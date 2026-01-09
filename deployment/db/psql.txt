@@ -1,0 +1,15 @@
+-- Switch to the tethys_platform database
+\c tethys_platform
+
+ALTER DATABASE tethys_platform OWNER TO tethys_default;
+GRANT ALL PRIVILEGES ON SCHEMA public TO tethys_default;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO tethys_default;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO tethys_default;
+
+-- Switch to the tethys_super database
+\c tethys_super
+
+ALTER DATABASE tethys_super OWNER TO tethys_super;
+GRANT ALL PRIVILEGES ON SCHEMA public TO tethys_super;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO tethys_super;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO tethys_super;

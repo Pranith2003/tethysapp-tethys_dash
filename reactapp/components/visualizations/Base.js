@@ -26,6 +26,8 @@ import { addVerticalLine } from "components/visualizations/BasePlot";
 import { WebsocketContext } from "components/contexts/WebSocketContext";
 import { v4 as uuidv4 } from "uuid";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import Number from "./Number";
+import GeoGloWSChart from "./GeoGloWSChart";
 
 const StyledSpinner = styled(Spinner)`
   margin: auto;
@@ -105,6 +107,8 @@ export const Visualization = memo(
         );
       case "text":
         return <Text textValue={vizData.text} />;
+      case "number":
+        return <Number textValue={vizData.text} />;
       case "variableInput":
         return (
           <VariableInput
@@ -131,6 +135,15 @@ export const Visualization = memo(
       case "plotly":
         return (
           <BasePlot
+            data={vizData.data}
+            layout={vizData.layout}
+            config={vizData.config}
+            visualizationRef={vizRef}
+          />
+        );
+      case "geo_glo_ws":
+        return (
+          <GeoGloWSChart
             data={vizData.data}
             layout={vizData.layout}
             config={vizData.config}
@@ -384,7 +397,9 @@ const BaseVisualization = ({
 
     if (
       (refresh ||
-        (source && argsString === "{}") ||
+        (source &&
+          argsString === "{}" &&
+          gridItemArgsWithVariableInputs.current === 0) ||
         !compareFilteredArgs(
           gridItemArgsWithVariableInputs.current,
           updatedGridItemArgs,

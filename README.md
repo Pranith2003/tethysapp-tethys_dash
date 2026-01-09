@@ -28,7 +28,7 @@ tethys install -d
 4. Create Persistence Store (if not done already) (update connection string as needed)
 
 ```
-tethys services create persistent -n primary_db -c postgres:mysecretpassword@localhost:5432
+tethys services create persistent -n primary_db -c postgres:postgres@localhost:5432
 ```
 
 5. Connect Persistence Store to TethysDash
