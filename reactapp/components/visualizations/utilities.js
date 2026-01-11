@@ -131,8 +131,6 @@ export async function getVisualization({
       );
     }
 
-    console.log("responseData1", apiResponse.viz_type);
-    console.log("responseData2", responseData);
     if (typeof apiResponse.data === "string") {
       responseData = responseData.value;
     }

@@ -1,5 +1,3 @@
-# http://13.201.155.87:4000/thredds/wms/regions/data/egypt/egypt_gw.nc?request=GetMetadata&item=layerDetails&layerName=lwe_thickness
-
 import intake
 import requests
 

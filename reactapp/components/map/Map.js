@@ -19,6 +19,8 @@ import { VariableInputsContext } from "components/contexts/Contexts";
 import GeoJSON from "ol/format/GeoJSON";
 import { valuesEqual } from "components/modals/utilities";
 import TimeSeriesControl from "components/map/TimeSeriesControl";
+import useAnimateHook from "hooks/useAnimation";
+import { fromLonLat } from "ol/proj";
 
 const StyledAlert = styled(Alert)`
   position: absolute;
@@ -65,6 +67,7 @@ const MapComponent = ({
   const mapExtentVariableEvent = useRef();
   const currentLayers = useRef([]);
   const { setVariableInputValues } = useContext(VariableInputsContext);
+  const { center: ctr, zoom: zm } = useAnimateHook();
 
   const defaultMapConfig = {
     className: "ol-map",
@@ -74,13 +77,33 @@ const MapComponent = ({
 
   const defaultViewConfig = {
     projection,
-    zoom,
-    center: lonLat,
+    zoom: zm ?? zoom,
+    center: ctr ?? lonLat,
   };
+
+  useEffect(() => {
+    if (ctr) setLonLat(ctr);
+    if (zm != null) setZoom(zm);
+  }, [ctr, zm]);
+
+  useEffect(() => {
+    if (!visualizationRef.current || !ctr) return;
+
+    const view = visualizationRef.current.getView();
+    const projectedCenter = fromLonLat(ctr); // ✅ convert to EPSG:3857
+    console.log("ctr, zm", ctr, zm);
+
+    view.animate({
+      center: projectedCenter,
+      zoom: zm ?? view.getZoom(),
+      duration: 800,
+    });
+  }, [ctr, zm, visualizationRef]);
 
   useEffect(() => {
     // Set up an initial map and set it to state/ref
     if (mapDivRef.current) {
+      console.log("defaultViewConfig", defaultViewConfig);
       const initialMap = new Map({
         target: mapDivRef.current,
         view: new View(defaultViewConfig),

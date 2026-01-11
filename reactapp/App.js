@@ -4,6 +4,7 @@ import Loader from "components/loader/AppLoader";
 import AppTour from "components/appTour/AppTour";
 import { ModalPriorityProvider } from "components/contexts/ModalPriorityContext";
 import MapCoordinatesProvider from "components/contexts/MapCoordinates";
+import { AnimationProvider } from "components/contexts/AnimationContext";
 
 import "App.scss";
 
@@ -15,7 +16,9 @@ function App() {
           <MapCoordinatesProvider>
             <Loader>
               <AppTour />
-              <Layout />
+              <AnimationProvider>
+                <Layout />
+              </AnimationProvider>
             </Loader>
           </MapCoordinatesProvider>
         </ModalPriorityProvider>
