@@ -36,7 +36,7 @@ class ListRegionsDataSource(base.DataSource):
             options = response.json()
 
         result = {
-            "variable_name": "Region",
+            "variable_name": "Region", # this is the key that handle the hooks in the javascript
             "initial_value": options[0]["value"] if options else None,
             "variable_options_source": options
         }

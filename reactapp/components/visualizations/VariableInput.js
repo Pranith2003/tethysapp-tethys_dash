@@ -17,6 +17,7 @@ import { BsArrowClockwise } from "react-icons/bs";
 import Slider from "components/inputs/Slider";
 import CSVUploader from "components/inputs/CSVUploader";
 import { valuesEqual } from "components/modals/utilities";
+import { useAnimation } from "components/contexts/AnimationContext";
 
 const StyledDiv = styled.div`
   padding: 1rem;
@@ -52,6 +53,7 @@ const VariableInput = ({
   const { variableInputValues, setVariableInputValues } = useContext(
     VariableInputsContext
   );
+  const { setSelectedRegion } = useAnimation();
 
   // Initialize updatedMetadata when metadata or variableInputValues change
   useEffect(() => {
@@ -162,6 +164,12 @@ const VariableInput = ({
         if (!inDataViewerMode) {
           updateVariableInputs(e.value ?? e);
         }
+      }
+      if (variable_name === "Region") {
+        setSelectedRegion((prev) => ({
+          ...prev,
+          region_name: inputValue?.value ?? inputValue,
+        }));
       }
     },
     [
