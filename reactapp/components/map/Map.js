@@ -87,18 +87,25 @@ const MapComponent = ({
   }, [ctr, zm]);
 
   useEffect(() => {
-    if (!visualizationRef.current || !ctr) return;
+    const map = visualizationRef.current;
 
-    const view = visualizationRef.current.getView();
-    const projectedCenter = fromLonLat(ctr); // ✅ convert to EPSG:3857
-    console.log("ctr, zm", ctr, zm);
+    if (!map || !ctr) {
+      console.log("Map not ready yet, skipping animation...");
+      return;
+    }
+
+    const view = map.getView();
+    const projectedCenter = fromLonLat(ctr);
+
+    console.log("Animating to:", ctr, zm);
 
     view.animate({
       center: projectedCenter,
       zoom: zm ?? view.getZoom(),
       duration: 800,
     });
-  }, [ctr, zm, visualizationRef]);
+  }, [ctr, zm, visualizationRef.current]);
+
 
   useEffect(() => {
     // Set up an initial map and set it to state/ref
@@ -139,10 +146,13 @@ const MapComponent = ({
   }, []);
 
   useEffect(() => {
-    if (!mapExtent) return;
+    if (!mapExtent || !visualizationRef.current) return;
 
-    const mapViewConfig = new View({ projection });
-    setProjection(mapViewConfig.getProjection().getCode());
+    if (ctr) return;
+
+    const view = visualizationRef.current.getView();
+    setProjection(view.getProjection().getCode());
+
     let extent;
     try {
       extent = mapExtent.extent.extent.replaceAll(" ", "");
@@ -155,18 +165,22 @@ const MapComponent = ({
     }
 
     const parts = extent.split(",").map((p) => parseFloat(p.trim()));
+
     if (parts.length === 3) {
       const [lon, lat, zoomLevel] = parts;
+
+      view.setCenter(fromLonLat([lon, lat])); 
+      view.setZoom(zoomLevel);
+
       setLonLat([lon, lat]);
       setZoom(zoomLevel);
-      mapViewConfig.setZoom(zoomLevel);
-      mapViewConfig.setCenter([lon, lat]);
-    } else {
-      mapViewConfig.fit(extent.split(",").map(Number), {
+    } else if (parts.length === 4) {
+      view.fit(parts, {
         size: visualizationRef.current.getSize(),
       });
-      setZoom(mapViewConfig.getZoom().toFixed(2));
-      setLonLat(mapViewConfig.getCenter());
+
+      setZoom(view.getZoom().toFixed(2));
+      setLonLat(view.getCenter());
     }
 
     if (mapExtentVariableEvent.current) {
@@ -177,15 +191,7 @@ const MapComponent = ({
       visualizationRef.current.on("moveend", updateMapExtentVariable);
       mapExtentVariableEvent.current = updateMapExtentVariable;
     }
-
-    // Update zoom on view change
-    mapViewConfig.on("change:resolution", () => {
-      setZoom(visualizationRef.current.getView().getZoom().toFixed(2));
-    });
-
-    visualizationRef.current.setView(mapViewConfig);
-    // eslint-disable-next-line
-  }, [mapExtent]);
+  }, [mapExtent, ctr]);
 
   useEffect(() => {
     setErrorMessage(null);
