@@ -19,12 +19,12 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
     visualization_tags = ['chart', 'plot', 'line', 'geoglows']
     visualization_description = 'Display storage values from GeoGloWS API'
 
-    def __init__(self, metadata=None, latitude=None, longitude=None, lat=None, lon=None, region=None, storage_type=None):
+    def __init__(self, metadata=None, latitude=None, longitude=None, region=None, storage_type=None):
         super().__init__(metadata=metadata)
         self.region = region or 'katherine_nt'
         self.storage_type = storage_type or 'grace'
-        self.latitude = float(latitude if latitude is not None else lat) if (latitude is not None or lat is not None) else -14.2
-        self.longitude = float(longitude if longitude is not None else lon) if (longitude is not None or lon is not None) else 132.2
+        self.latitude = float(latitude)
+        self.longitude = float(longitude)
         self._data = None
 
     def update_coordinates(self, latitude, longitude):
