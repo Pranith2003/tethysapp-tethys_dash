@@ -9,6 +9,7 @@ const NormalInput = ({
   ariaLabel,
   placeholder,
   divProps,
+  step,
 }) => {
   return (
     <div {...divProps}>
@@ -27,7 +28,9 @@ const NormalInput = ({
           }
         }}
         value={value}
+        // value={type === "number" ? Number(value) : value}
         placeholder={placeholder}
+        step={step}
       />
     </div>
   );
@@ -41,6 +44,7 @@ NormalInput.propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]), // state for input value
   type: PropTypes.string, // type of input to use
   divProps: PropTypes.object, // additional props to pass to the parent div
+  step: PropTypes.number,
 };
 
 export default NormalInput;
