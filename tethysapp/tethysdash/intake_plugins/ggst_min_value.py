@@ -47,5 +47,8 @@ class FetchMinValueDataSource(base.DataSource):
         return {
             "variable_name": "Minimum",
             "initial_value": min_value["min"],
-            "variable_options_source": "float"
+            "variable_options_source": "number",
+            "metadata": {
+                "step": 0.1
+            },
         }

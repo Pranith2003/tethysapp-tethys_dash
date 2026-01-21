@@ -47,6 +47,9 @@ class FetchMaxValueDataSource(base.DataSource):
         return {
             "variable_name": "Maximum",
             "initial_value": max_value["max"],
-            "variable_options_source": "number"
+            "variable_options_source": "number",
+            "metadata": {
+                "step": 0.1
+            },
         }
 
