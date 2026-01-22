@@ -103,7 +103,14 @@ export async function getVisualization({
     setVizData({ text: itemData.args.text });
 
     return;
-  } else if (itemData.source === "Custom Image") {
+  } 
+  else if (itemData.source === "float") {
+    setVizType("float");
+    setVizData({ text: itemData.args.text });
+
+    return;
+  }
+  else if (itemData.source === "Custom Image") {
     setVizType("image");
     setVizData({
       source: itemData.args.image_source,
@@ -270,6 +277,7 @@ export const nonDropDownVariableInputTypes = [
   "number",
   "checkbox",
   "date",
+  "float",
   "date-hour",
   {
     value: "slider",

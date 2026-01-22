@@ -37,10 +37,9 @@ class FetchStyles(intake.source.base.DataSource):
         """
         Returns configuration for a UI variable input
         """
-        if self.region_name:
+        if self.region_name != "global":
             url = f"http://13.201.155.87:4000/thredds/wms/regions/data/{self.region_name}/{self.region_name}_{self.storage_type}.nc?request=GetMetadata&item=layerDetails&layerName=lwe_thickness"
         else:
-
             url = f"http://13.201.155.87:4000/thredds/wms/regions/data/GRC_{self.storage_type}.nc?request=GetMetadata&item=layerDetails&layerName=lwe_thickness"
 
         response = requests.get(url)

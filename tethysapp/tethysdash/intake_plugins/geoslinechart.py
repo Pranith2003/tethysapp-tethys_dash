@@ -52,7 +52,6 @@ class GeoSLineChart(intake.source.base.DataSource):
                                      'accept': 'application/json',
                                      'Content-Type': 'application/x-www-form-urlencoded',
                                     },
-                                 timeout=20,
                                  )
         response.raise_for_status()
         data = response.json()

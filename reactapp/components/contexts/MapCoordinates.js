@@ -3,8 +3,8 @@ import { MapCoordinatesContext } from "components/contexts/Contexts";
 
 const MapCoordinatesProvider = ({ children }) => {
   const [latlng, setlatlng] = useState({
-    lat: 0.0,
-    lon: 0.0,
+    latitude: 40.85,
+    longitude: 70.38,
   });
   return (
     <MapCoordinatesContext.Provider

@@ -117,6 +117,7 @@ const VariableInput = ({
       } else if (variable_options_source === "float") {
         // float (positive, negative, or zero)
         initialVariableValue = parseFloat(initial_value);
+        variableValue = initialVariableValue;
       } else if (
         variable_options_source === "checkbox" &&
         initial_value === null
@@ -151,6 +152,9 @@ const VariableInput = ({
       let inputValue = e;
       if (variable_options_source === "number") {
         inputValue = parseInt(e);
+      }
+      if (variable_options_source === "float") {
+        inputValue = parseFloat(e);
       }
       setValue(inputValue);
       onChange(inputValue);

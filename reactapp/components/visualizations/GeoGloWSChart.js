@@ -13,8 +13,8 @@ const GeoGloWSChart = () => {
       try {
         if (!latlng) return;
         const args = {
-          latitude: latlng.lat,
-          longitude: latlng.lon,
+          latitude: latlng.latitude,
+          longitude: latlng.longitude,
         };
         const response = await fetch(
           `/apps/tethysdash/data?source=geo_glo_ws&args=${encodeURIComponent(JSON.stringify(args))}`
@@ -34,8 +34,6 @@ const GeoGloWSChart = () => {
 
     handleGeoGloWSUpdate();
   }, [latlng]);
-
-  if (!plotData) return <div>Loading...</div>;
 
   return (
     <Plot
