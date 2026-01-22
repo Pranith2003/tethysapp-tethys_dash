@@ -176,8 +176,10 @@ def visualization(request):
         data = {"error": str(e)}
         success = False
     except Exception as e:
-        data = {"error": "Failed to retrieve data"}
+        # Preserving the real exception message for debugging and UI surfacing.
+        # (The frontend already safely displays `data.error`.)
         print(e)
+        data = {"error": str(e) or "Failed to retrieve data"}
         success = False
 
     return JsonResponse({"success": success, "data": data, "viz_type": viz_type})

@@ -174,6 +174,11 @@ const VariableInput = ({
           ...prev,
           region_name: inputValue?.value ?? inputValue,
         }));
+      } else if (variable_name === "Storage Type") {
+        setSelectedRegion((prev) => ({
+          ...prev,
+          storage_type: inputValue?.value ?? inputValue,
+        }));
       }
     },
     [
