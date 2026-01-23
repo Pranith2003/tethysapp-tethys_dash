@@ -117,6 +117,7 @@ const VariableInput = ({
       } else if (variable_options_source === "float") {
         // float (positive, negative, or zero)
         initialVariableValue = parseFloat(initial_value);
+        variableValue = initialVariableValue;
       } else if (
         variable_options_source === "checkbox" &&
         initial_value === null
@@ -152,6 +153,9 @@ const VariableInput = ({
       if (variable_options_source === "number") {
         inputValue = parseInt(e);
       }
+      if (variable_options_source === "float") {
+        inputValue = parseFloat(e);
+      }
       setValue(inputValue);
       onChange(inputValue);
 
@@ -169,6 +173,11 @@ const VariableInput = ({
         setSelectedRegion((prev) => ({
           ...prev,
           region_name: inputValue?.value ?? inputValue,
+        }));
+      } else if (variable_name === "Storage Type") {
+        setSelectedRegion((prev) => ({
+          ...prev,
+          storage_type: inputValue?.value ?? inputValue,
         }));
       }
     },

@@ -12,7 +12,7 @@ def fetch_range(region_name, storage_type=None):
     base_url = "http://ggst-api.geoglows.org"
     url = f"{base_url}/api/fetch_range?storage_type={storage_type}"
 
-    if region_name != "region":
+    if region_name != "global":
         url = f"{url}&region_name={region_name}"
 
     r = requests.get(url)

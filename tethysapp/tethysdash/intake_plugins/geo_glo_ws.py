@@ -19,7 +19,7 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
     visualization_tags = ['chart', 'plot', 'line', 'geoglows']
     visualization_description = 'Display storage values from GeoGloWS API'
 
-    def __init__(self, metadata=None, latitude=None, longitude=None, region=None, storage_type=None):
+    def __init__(self, metadata=None, latitude=None, longitude=None, lat=None, lon=None, region=None, storage_type=None):
         super().__init__(metadata=metadata)
         self.region = region or 'katherine_nt'
         self.storage_type = storage_type or 'grace'
@@ -98,7 +98,7 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
         )
 
         url = (
-            f'http://ggst-api.geoglows.org/api/getPointValues/'
+            f'http://ggst-api.geoglows.org/api/getPointValues'
             f'?latitude={self.latitude}'
             f'&longitude={self.longitude}'
             f'&storage_type={self.storage_type}'
@@ -118,7 +118,8 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
                     # Extract common error fields
                     detail = error_data.get("detail") or error_data.get("error") or error_data.get("message")
                     if detail:
-                        error_message = f"GeoGloWS: {detail}"
+                        print(f"GeoGloWS: {detail}")
+                        error_message = "GeoGloWS: Failed to Load the Data"
             except (ValueError, KeyError):
                 # If JSON parsing fails, use a snippet of the raw text
                 body_snippet = (response.text or "")[:200]
@@ -139,3 +140,5 @@ class GeoGloWSDataSource(intake.source.base.DataSource):
 
 # Register with Intake
 # intake.register_driver(GeoGloWSDataSource.name, GeoGloWSDataSource)
+
+# http://ggst-api.geoglows.org

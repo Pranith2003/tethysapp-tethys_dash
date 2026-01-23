@@ -21,6 +21,7 @@ import { valuesEqual } from "components/modals/utilities";
 import TimeSeriesControl from "components/map/TimeSeriesControl";
 import useAnimateHook from "hooks/useAnimation";
 import { fromLonLat } from "ol/proj";
+import { useMapCoordinates } from "components/contexts/MapCoordinates";
 
 const StyledAlert = styled(Alert)`
   position: absolute;
@@ -58,7 +59,7 @@ const MapComponent = ({
   const mapDivRef = useRef();
   const onMapClickCurrent = useRef();
   const [zoom, setZoom] = useState(4.5);
-  const [lonLat, setLonLat] = useState([-10686671.12, 4721671.57]);
+  const [lonLat, setLonLat] = useState([5009377, 2870000]);
   const [projection, setProjection] = useState("EPSG:3857");
   const mapContext = useMapContext();
   const setMapReady = mapContext?.setMapReady;
@@ -68,6 +69,10 @@ const MapComponent = ({
   const currentLayers = useRef([]);
   const { setVariableInputValues } = useContext(VariableInputsContext);
   const { center: ctr, zoom: zm } = useAnimateHook();
+
+  const mapCoordinates = useMapCoordinates();
+
+  console.log("mapCoordinates", mapCoordinates)
 
   const defaultMapConfig = {
     className: "ol-map",
