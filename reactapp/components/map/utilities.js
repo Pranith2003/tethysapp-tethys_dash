@@ -183,6 +183,7 @@ export function createMarkerLayer(coordinate) {
     source: new VectorSource({
       features: [marker],
     }),
+    zIndex: 1000,
     name: "Marker",
   });
 
