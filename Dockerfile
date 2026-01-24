@@ -9,7 +9,7 @@ ENV TETHYS_DB_HOST="tethys_db" \
     TETHYS_DB_SUPERUSER="tethys_super" \
     TETHYS_DB_SUPERUSER_PASS="postgres" \
     TERM="xterm-256color" \
-    ALLOWED_HOSTS="\"[localhost]\"" \
+    ALLOWED_HOSTS="\"[localhost]\"" \ 
     PORTAL_SUPERUSER_NAME="admin" \
     PORTAL_SUPERUSER_PASSWORD="postgres" \
     PORTAL_SUPERUSER_EMAIL="you@email.com" \
@@ -20,16 +20,16 @@ COPY . ${TETHYS_HOME}/apps/tethys_react_app
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
 
-RUN pip install --upgrade daphne twisted python-dotenv
+# WORKDIR ${TETHYS_HOME}/apps/tethys_react_app
 
-WORKDIR ${TETHYS_HOME}/apps/tethys_react_app
-RUN tethys install --no-db-sync
+# RUN chmod +x entrypoint.sh \
+#  && 
 
-RUN chown -R www:www /opt/conda/envs/tethys/lib/python3.12/site-packages/tethysapp/tethysdash && \
-    chmod -R 775 /opt/conda/envs/tethys/lib/python3.12/site-packages/tethysapp/tethysdash
-
-COPY deployment/salt srv/salt
+RUN pip install --upgrade daphne twisted python-dotenv dateparser
 
 EXPOSE 80
+
+COPY deployment/run.sh ${TETHYS_HOME}
+
 WORKDIR ${TETHYS_HOME}
-CMD bash run.sh
+CMD ["bash", "run.sh"]

@@ -27,7 +27,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: tethysdash_primary_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - docker_postgres_data:/var/lib/postgresql/data
     networks:
       - tethys_network
     healthcheck:
@@ -40,4 +40,4 @@ networks:
   tethys_network:
 
 volumes:
-  postgres_data:
+  docker_postgres_data:
