@@ -38,11 +38,11 @@ USER_EXISTS () {
 # Environment
 #######################################
 export PGPASSWORD=${TETHYS_DB_PASSWORD}
-cd "$TETHYS_HOME"
+cd "$TETHYS_HOME/apps/tethys_react_app"
 
-#######################################
+######################################
 # 1. Database setup
-#######################################
+######################################
 echo_status "Creating database for Tethys (if required)"
 
 if ! USER_EXISTS "tethys_super"; then
@@ -124,7 +124,7 @@ cd "$TETHYS_HOME/apps/tethys_react_app/"
 if tethys list | awk '/^Apps:/{flag=1;next} /^[^ ]/{flag=0} flag' | grep -q '^  tethysdash$'; then
   echo_skip "tethysdash already installed"
 else
-  tethys install
+  printf '\n\n' | tethys install
   echo_ok "tethysdash installed"
 fi
 
