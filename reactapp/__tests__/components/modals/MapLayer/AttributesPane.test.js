@@ -53,7 +53,7 @@ test("AttributesPane successful query no attributes", async () => {
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },
@@ -148,7 +148,7 @@ test("AttributesPane successful query with initial variables or popups", async (
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },
@@ -213,7 +213,7 @@ test("AttributesPane unsuccessful query no initial variables or popups", async (
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },
@@ -387,7 +387,7 @@ test("AttributesPane popups header and body change", async () => {
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },
@@ -453,7 +453,7 @@ test("AttributesPane popups initial values", async () => {
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },
@@ -502,7 +502,7 @@ test("AttributesPane attributes change", async () => {
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },
@@ -580,7 +580,7 @@ test("AttributesPane missin required params", async () => {
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
     },
   };
   render(
@@ -645,7 +645,7 @@ test("AttributesPane allow layer query", async () => {
   const sourceProps = {
     type: "WMS",
     props: {
-      url: "http://localhost:8081/geoserver/wms",
+      url: "http://ggst-api.geoglows.org/geoserver/wms",
       params: {
         LAYERS: "topp:states",
       },

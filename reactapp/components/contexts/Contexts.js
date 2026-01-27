@@ -11,3 +11,5 @@ export const DataViewerModeContext = createContext();
 export const AppTourContext = createContext();
 export const MapContext = createContext();
 export const TabContext = createContext();
+export const MapCoordinatesContext = createContext();
+export const MapAnimationsContext = createContext();

@@ -17,6 +17,7 @@ import { BsArrowClockwise } from "react-icons/bs";
 import Slider from "components/inputs/Slider";
 import CSVUploader from "components/inputs/CSVUploader";
 import { valuesEqual } from "components/modals/utilities";
+import { useAnimation } from "components/contexts/AnimationContext";
 
 const StyledDiv = styled.div`
   padding: 1rem;
@@ -52,6 +53,7 @@ const VariableInput = ({
   const { variableInputValues, setVariableInputValues } = useContext(
     VariableInputsContext
   );
+  const { setSelectedRegion } = useAnimation();
 
   // Initialize updatedMetadata when metadata or variableInputValues change
   useEffect(() => {
@@ -112,6 +114,10 @@ const VariableInput = ({
         // If the variable_options_source is a number, it parses the int value from initial_value
         initialVariableValue = parseInt(initial_value);
         variableValue = initialVariableValue;
+      } else if (variable_options_source === "float") {
+        // float (positive, negative, or zero)
+        initialVariableValue = parseFloat(initial_value);
+        variableValue = initialVariableValue;
       } else if (
         variable_options_source === "checkbox" &&
         initial_value === null
@@ -147,6 +153,9 @@ const VariableInput = ({
       if (variable_options_source === "number") {
         inputValue = parseInt(e);
       }
+      if (variable_options_source === "float") {
+        inputValue = parseFloat(e);
+      }
       setValue(inputValue);
       onChange(inputValue);
 
@@ -159,6 +168,17 @@ const VariableInput = ({
         if (!inDataViewerMode) {
           updateVariableInputs(e.value ?? e);
         }
+      }
+      if (variable_name === "Region") {
+        setSelectedRegion((prev) => ({
+          ...prev,
+          region_name: inputValue?.value ?? inputValue,
+        }));
+      } else if (variable_name === "Storage Type") {
+        setSelectedRegion((prev) => ({
+          ...prev,
+          storage_type: inputValue?.value ?? inputValue,
+        }));
       }
     },
     [

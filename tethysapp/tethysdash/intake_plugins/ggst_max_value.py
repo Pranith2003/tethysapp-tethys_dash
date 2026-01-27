@@ -16,7 +16,9 @@ class FetchMaxValueDataSource(base.DataSource):
     visualization_args = {
         'region_name': {
             'type': 'string',
-            'description': 'Name of the region'
+            'description': 'Name of the region',
+            'required': False,
+            'default': None
         },
         'storage_type': {
             'type': 'string',
@@ -43,8 +45,11 @@ class FetchMaxValueDataSource(base.DataSource):
         max_value = fetch_range(self.region_name, self.storage_type)
         print(max_value)
         return {
-            "variable_name": "Max",
+            "variable_name": "Maximum",
             "initial_value": max_value["max"],
-            "variable_options_source": "number"
+            "variable_options_source": "number",
+            "metadata": {
+                "step": 0.1
+            },
         }
 

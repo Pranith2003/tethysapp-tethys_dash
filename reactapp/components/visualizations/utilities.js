@@ -98,13 +98,19 @@ export async function getVisualization({
     setVizData({ text: itemData.args.text });
 
     return;
-  } 
-  else if (itemData.source === "number") {
+  } else if (itemData.source === "number") {
     setVizType("number");
     setVizData({ text: itemData.args.text });
 
     return;
-  }else if (itemData.source === "Custom Image") {
+  } 
+  else if (itemData.source === "float") {
+    setVizType("float");
+    setVizData({ text: itemData.args.text });
+
+    return;
+  }
+  else if (itemData.source === "Custom Image") {
     setVizType("image");
     setVizData({
       source: itemData.args.image_source,
@@ -138,6 +144,13 @@ export async function getVisualization({
 
     if (apiResponse.viz_type === "plotly") {
       setVizType("plotly");
+      setVizData({
+        data: responseData.data,
+        layout: responseData.layout,
+        config: responseData.config,
+      });
+    } else if (apiResponse.viz_type === "geo_glo_ws") {
+      setVizType("geo_glo_ws");
       setVizData({
         data: responseData.data,
         layout: responseData.layout,
@@ -186,8 +199,7 @@ export async function getVisualization({
       setVizData({
         text: responseData.text,
       });
-    }
-    else if (apiResponse.viz_type === "number") {
+    } else if (apiResponse.viz_type === "number") {
       setVizType("number");
       setVizData({
         text: responseData.text,
@@ -265,6 +277,7 @@ export const nonDropDownVariableInputTypes = [
   "number",
   "checkbox",
   "date",
+  "float",
   "date-hour",
   {
     value: "slider",

@@ -136,9 +136,14 @@ const Input = ({ label, type, onChange, value, valueOptions, inputProps }) => {
     return (
       <NormalInput
         label={label}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) =>
+          type === "number"
+            ? onChange(parseFloat(e.target.value))
+            : onChange(e.target.value)
+        }
         value={value}
         type={type}
+        {...inputProps}
       />
     );
   }

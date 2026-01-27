@@ -19,6 +19,9 @@ import { VariableInputsContext } from "components/contexts/Contexts";
 import GeoJSON from "ol/format/GeoJSON";
 import { valuesEqual } from "components/modals/utilities";
 import TimeSeriesControl from "components/map/TimeSeriesControl";
+import useAnimateHook from "hooks/useAnimation";
+import { fromLonLat } from "ol/proj";
+import { useMapCoordinates } from "components/contexts/MapCoordinates";
 
 const StyledAlert = styled(Alert)`
   position: absolute;
@@ -56,7 +59,7 @@ const MapComponent = ({
   const mapDivRef = useRef();
   const onMapClickCurrent = useRef();
   const [zoom, setZoom] = useState(4.5);
-  const [lonLat, setLonLat] = useState([-10686671.12, 4721671.57]);
+  const [lonLat, setLonLat] = useState([5009377, 2870000]);
   const [projection, setProjection] = useState("EPSG:3857");
   const mapContext = useMapContext();
   const setMapReady = mapContext?.setMapReady;
@@ -65,6 +68,11 @@ const MapComponent = ({
   const mapExtentVariableEvent = useRef();
   const currentLayers = useRef([]);
   const { setVariableInputValues } = useContext(VariableInputsContext);
+  const { center: ctr, zoom: zm } = useAnimateHook();
+
+  const mapCoordinates = useMapCoordinates();
+
+  console.log("mapCoordinates", mapCoordinates)
 
   const defaultMapConfig = {
     className: "ol-map",
@@ -74,13 +82,40 @@ const MapComponent = ({
 
   const defaultViewConfig = {
     projection,
-    zoom,
-    center: lonLat,
+    zoom: zm ?? zoom,
+    center: ctr ?? lonLat,
   };
+
+  useEffect(() => {
+    if (ctr) setLonLat(ctr);
+    if (zm != null) setZoom(zm);
+  }, [ctr, zm]);
+
+  useEffect(() => {
+    const map = visualizationRef.current;
+
+    if (!map || !ctr) {
+      console.log("Map not ready yet, skipping animation...");
+      return;
+    }
+
+    const view = map.getView();
+    const projectedCenter = fromLonLat(ctr);
+
+    console.log("Animating to:", ctr, zm);
+
+    view.animate({
+      center: projectedCenter,
+      zoom: zm ?? view.getZoom(),
+      duration: 800,
+    });
+  }, [ctr, zm, visualizationRef.current]);
+
 
   useEffect(() => {
     // Set up an initial map and set it to state/ref
     if (mapDivRef.current) {
+      console.log("defaultViewConfig", defaultViewConfig);
       const initialMap = new Map({
         target: mapDivRef.current,
         view: new View(defaultViewConfig),
@@ -116,10 +151,13 @@ const MapComponent = ({
   }, []);
 
   useEffect(() => {
-    if (!mapExtent) return;
+    if (!mapExtent || !visualizationRef.current) return;
 
-    const mapViewConfig = new View({ projection });
-    setProjection(mapViewConfig.getProjection().getCode());
+    if (ctr) return;
+
+    const view = visualizationRef.current.getView();
+    setProjection(view.getProjection().getCode());
+
     let extent;
     try {
       extent = mapExtent.extent.extent.replaceAll(" ", "");
@@ -132,18 +170,22 @@ const MapComponent = ({
     }
 
     const parts = extent.split(",").map((p) => parseFloat(p.trim()));
+
     if (parts.length === 3) {
       const [lon, lat, zoomLevel] = parts;
+
+      view.setCenter(fromLonLat([lon, lat])); 
+      view.setZoom(zoomLevel);
+
       setLonLat([lon, lat]);
       setZoom(zoomLevel);
-      mapViewConfig.setZoom(zoomLevel);
-      mapViewConfig.setCenter([lon, lat]);
-    } else {
-      mapViewConfig.fit(extent.split(",").map(Number), {
+    } else if (parts.length === 4) {
+      view.fit(parts, {
         size: visualizationRef.current.getSize(),
       });
-      setZoom(mapViewConfig.getZoom().toFixed(2));
-      setLonLat(mapViewConfig.getCenter());
+
+      setZoom(view.getZoom().toFixed(2));
+      setLonLat(view.getCenter());
     }
 
     if (mapExtentVariableEvent.current) {
@@ -154,15 +196,7 @@ const MapComponent = ({
       visualizationRef.current.on("moveend", updateMapExtentVariable);
       mapExtentVariableEvent.current = updateMapExtentVariable;
     }
-
-    // Update zoom on view change
-    mapViewConfig.on("change:resolution", () => {
-      setZoom(visualizationRef.current.getView().getZoom().toFixed(2));
-    });
-
-    visualizationRef.current.setView(mapViewConfig);
-    // eslint-disable-next-line
-  }, [mapExtent]);
+  }, [mapExtent, ctr]);
 
   useEffect(() => {
     setErrorMessage(null);
